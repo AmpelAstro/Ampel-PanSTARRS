@@ -20,7 +20,6 @@ from ampel.model.UnitModel import UnitModel
 from ampel.plot.create import create_plot_record
 from ampel.struct.UnitResult import UnitResult
 from ampel.types import UBson
-from ampel.util.collections import ampel_iter
 from ampel.view.T2DocView import T2DocView
 
 
@@ -42,7 +41,7 @@ class T2PS1ThumbNedTap(AbsTiedPointT2Unit):
     t2_dependency: Sequence[UnitModel[Literal["T2NedTap"]]]
 
     cmaps: Sequence[str] = ["cividis"]
-    band: str | Sequence[str] = "g"
+    band: Sequence[str] = ["g"]
     plot_all: bool = False
     z_range: None | tuple[float, float]
     spectroscopic: bool = True
@@ -86,10 +85,10 @@ class T2PS1ThumbNedTap(AbsTiedPointT2Unit):
                 self.logger.info(f"Skipping cat result with index {i}")
                 continue
 
-            for band in ampel_iter(self.band):
+            for band in self.band:
                 pt = T2PanStarrThumbPrint.get_ps1_target(datapoint, band)
 
-                for cmap in ampel_iter(self.cmaps):
+                for cmap in self.cmaps:
                     plots.append(  # noqa: PERF401
                         create_plot_record(
                             pt.show(

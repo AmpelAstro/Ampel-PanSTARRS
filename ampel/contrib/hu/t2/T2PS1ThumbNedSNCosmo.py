@@ -18,7 +18,6 @@ from ampel.model.StateT2Dependency import StateT2Dependency
 from ampel.plot.create import create_plot_record
 from ampel.struct.UnitResult import UnitResult
 from ampel.types import UBson
-from ampel.util.collections import ampel_iter
 from ampel.view.LightCurve import LightCurve
 from ampel.view.T2DocView import T2DocView
 
@@ -33,7 +32,7 @@ class T2PS1ThumbNedSNCosmo(AbsTiedLightCurveT2Unit):
     """
 
     #: band: example: ["g", "r", "i", "z", "y"]
-    band: str | Sequence[str] = "g"
+    band: Sequence[str] = ["g"]
     cmaps: Sequence[str] = ["cividis"]
     plot_all: bool = False
     z_range: None | tuple[float, float]
@@ -100,8 +99,8 @@ class T2PS1ThumbNedSNCosmo(AbsTiedLightCurveT2Unit):
                     )
                     continue
 
-            for band in ampel_iter(self.band):
-                for cmap in ampel_iter(self.cmaps):
+            for band in self.band:
+                for cmap in self.cmaps:
                     d2 = {
                         "plot": [
                             create_plot_record(

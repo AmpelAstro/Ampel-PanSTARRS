@@ -17,7 +17,6 @@ from ampel.model.PlotProperties import FormatModel, PlotProperties
 from ampel.plot.create import create_plot_record
 from ampel.struct.UnitResult import UnitResult
 from ampel.types import UBson
-from ampel.util.collections import ampel_iter
 
 
 class T2PanStarrThumbPrint(AbsPointT2Unit):
@@ -29,7 +28,7 @@ class T2PanStarrThumbPrint(AbsPointT2Unit):
     """
 
     cmaps: Sequence[str] = ["cividis"]
-    band: str | Sequence[str] = "g"
+    band: Sequence[str] = ["g"]
     plot_props: PlotProperties = PlotProperties(
         tags=["THUMBPRINT", "PANSTARRS"],
         file_name=FormatModel(
@@ -67,8 +66,8 @@ class T2PanStarrThumbPrint(AbsPointT2Unit):
                         },
                         logger=self.logger,
                     )
-                    for cmap in ampel_iter(self.cmaps)
-                    for band in ampel_iter(self.band)
+                    for cmap in self.cmaps
+                    for band in self.band
                 ]
             }
         }
